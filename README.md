@@ -10,5 +10,4 @@ npm install
 ```
 
 ## 需要在项目根目录创建.env文件
-
-![](https://zyfullstack-images.oss-cn-shanghai.aliyuncs.com/img/20210623120157.png)
+![](https://zyfullstack-images.oss-cn-shanghai.aliyuncs.com/img/20210623130059.png)
