@@ -11,12 +11,11 @@
 const connection = require('../app/database');
 
 class AuthService {
-	async checkMoment(momentId, userId) {
-		console.log(momentId, userId);
+	async checkResource(tableName, id, userId) {
 		const statement = `
-		SELECT * FROM moment WHERE id = ? AND users_id = ?;
+		SELECT * FROM ${tableName} WHERE id = ? AND users_id = ?;
 		`;
-		const [result] = await connection.execute(statement, [momentId, userId]);
+		const [result] = await connection.execute(statement, [id, userId]);
 		return result.length === 0 ? false: true;
 	}
 };

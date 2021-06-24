@@ -11,17 +11,20 @@
 const Router = require('koa-router');
 
 const {
-	verifyAuth
+	verifyAuth,
+	verifyPermission
 } = require('../middlewave/auth.middlewave');
 const {
 	create,
 	reply,
-	update
+	update,
+	remove
 } = require('../controller/comment.controller');
 
 const commentRouter = new Router({prefix: '/comment'});
 
 commentRouter.post('/', verifyAuth, create);
 commentRouter.post ('/:commentId/reply', verifyAuth, reply);
-commentRouter.patch('/:commentId', verifyAuth, update);
+commentRouter.patch('/:commentId', verifyAuth, verifyPermission, update);
+commentRouter.delete('/:commentId', verifyAuth, remove);
 module.exports = commentRouter;
