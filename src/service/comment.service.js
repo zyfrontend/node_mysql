@@ -15,7 +15,21 @@ class CommentService {
 		`;
 		const [result] = await connection.execute(statement, [content, momentId, userid]);
 		return result;
-		}
+		};
+	async reply(momentId, content, commentId, id){
+		const statement = `
+		INSERT INTO comment (content, moment_id, users_id, comment_id) VALUES (?, ?, ?, ?);
+		`;
+		const [result] = await connection.execute(statement, [content, momentId, id, commentId]);
+		return result;
+		};
+	async update(commentId, content){
+		const statement = `
+		UPDATE comment SET content = ? WHERE id = ?;
+		`;
+		const [result] = await connection.execute(statement, [content, commentId]);
+		return result;
+		};
 }
 
 module.exports = new CommentService();
