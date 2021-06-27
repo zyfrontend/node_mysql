@@ -28,15 +28,38 @@ class MomentService {
 		};
 	async getMomentBy(id) {
 		const statement = `
-		${sqlFragment}
+		SELECT 
+			m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
+			JSON_OBJECT('id', u.id, 'name', u.name) users
+		FROM moment m
+		LEFT JOIN users u ON m.users_id = u.id
 		WHERE m.id = ?;
 		`;
-		const [result] = await connection.execute(statement, [id]);
+		
+		const test = `
+		SELECT m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
+			JSON_OBJECT( 'id', u.id, 'name', u.NAME ) users,
+			JSON_ARRAYAGG(
+			JSON_OBJECT( 'id', c.id, 'content', c.content, 'c.comment', c.comment_id, 'createTime', c.createAt)) comments
+		FROM
+			moment m
+				LEFT JOIN users u ON m.users_id = u.id 
+				LEFT JOIN comment c ON c.comment_id = m.id
+		WHERE
+		m.id = ?;
+		`;
+
+		const [result] = await connection.execute(test, [id]);
 		return result[0];
 		};
 	async getMomentList(offset, size) {
 		const statement = `
-		${sqlFragment}
+		SELECT 
+			m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
+			JSON_OBJECT('id', u.id, 'name', u.name) users,
+			(SELECT COUNT (*) FROM comment c WHERE c.moment_id = m.id) commentCount
+		FROM moment m
+		LEFT JOIN users u ON m.users_id = u.id
 		LIMIT ?, ?;
 		`;
 		const [result] = await connection.execute(statement, [offset, size]);
