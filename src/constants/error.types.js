@@ -14,12 +14,13 @@ const USER_DOES_NOT_EXISTS = 'user_does_not_exists';
 const PASSWORD_IS_INCORRENT = 'password_is_incorrent';
 const UNAUTHORIZATION_TOKEN = 'unauthorization_token';
 const UNPERMISSION = 'unpermission';
-
+const SQL_ERROR = 'sql_error';
 module.exports = {
 	NAME_OR_PASSWORD_IS_REQUIRED,
 	NAME_ALREADy_EXISTS,
   USER_DOES_NOT_EXISTS,
 	PASSWORD_IS_INCORRENT,
 	UNAUTHORIZATION_TOKEN,
-	UNPERMISSION
+	UNPERMISSION,
+	SQL_ERROR
 };

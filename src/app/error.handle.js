@@ -35,6 +35,11 @@ const errorHandle = (error, ctx) => {
 				status = 401;
 				message = "您不具备操作权限";
 			break;
+			case errorTypes.SQL_ERROR:
+				status = 401;
+				message = "SQL语句出错";
+			break;
+
 			default:
 				status = 404;
 				message = "NOT FOUND";
