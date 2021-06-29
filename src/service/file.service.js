@@ -13,7 +13,7 @@ const errorType = require('../constants/error.types');
 class FileService {
 	async createAvatar(filename, mimetype, size, id){
 		const statement = `
-		INSERT INTO avatar (filename, mimetype, size, user_id) VALUES (?, ?, ?, ?);
+		INSERT INTO avatar (filename, mimetype, size, users_id) VALUES (?, ?, ?, ?);
 		`;
 		try{
 		const [result] = await connection.execute(statement, [filename, mimetype, size, id]);
