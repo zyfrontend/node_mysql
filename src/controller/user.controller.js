@@ -7,15 +7,26 @@
 *   描    述：
 *
 ================================================================*/
-const service = require('../service/user.service');
+const fs = require('fs');
+
+
+const userService = require('../service/user.service');
+const fileService = require('../service/file.service');
+const { AVATAR_PATH } = require('../constants/file.path');
+
 class UserController {
 	async create(ctx, next){
 		// 获取用户请求传递的数据
 		const user = ctx.request.body;	
 		// 查询数据
-		const result = await service.create(user);	
+		const result = await userService.create(user);	
 		// 返回数据
 		ctx.body = result;
+		};
+	async getAvatarInfo(ctx, next){
+		const { userId } = ctx.params;
+		const getavatar = await fileService.getAvatar(userId);
+		ctx.body = fs.createReadStream(`${AVATAR_PATH}/${getavatar.filename}`);
 		}
 }
 

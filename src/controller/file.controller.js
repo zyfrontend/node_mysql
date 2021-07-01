@@ -17,6 +17,6 @@ class FileUpload {
 		const result = await fileService.createAvatar(filename, mimetype, size, id);
 		ctx.body = result;
 		};
-};
+	};
 
 module.exports = new FileUpload();

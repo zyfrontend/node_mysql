@@ -24,7 +24,7 @@ const {
 } = require('../middlewave/auth.middlewave');
 
 const {
-	saveAvatarInfo
+	saveAvatarInfo,
 } = require('../controller/file.controller');
 
 fileRouter.post('/', verifyAuth, avatarHandle, saveAvatarInfo);

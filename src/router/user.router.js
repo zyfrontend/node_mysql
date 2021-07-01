@@ -14,10 +14,11 @@ const {
 	handlePassword
 } = require('../middlewave/user.middlewave');
 const {
-	create
+	create,
+	getAvatarInfo
 } = require('../controller/user.controller')
 const userRouter = new Router({prefix: '/users'});
 
 userRouter.post('/', verifyUser, handlePassword, create);
-
+userRouter.get('/:userId/avatar', getAvatarInfo);
 module.exports = userRouter;

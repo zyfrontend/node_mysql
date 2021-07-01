@@ -30,7 +30,8 @@ class UserService {
 		`;
 		const result = await connection.execute(statement, [name]);
 		return result[0];
-		}
+		};
+
 }
 
 module.exports = new UserService;

@@ -21,7 +21,15 @@ class FileService {
 			} catch(err) {
 				return err.message;
 				}
-			}
-};
+			};
+
+	async getAvatar(userId) {
+		const statement = `
+		SELECT * FROM avatar WHERE users_id = ?
+		`;
+		const [result] = await connection.execute(statement, [userId]);
+		return result[0];
+		}
+	};
 
 module.exports = new FileService();
