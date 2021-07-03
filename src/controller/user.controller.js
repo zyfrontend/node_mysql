@@ -13,7 +13,6 @@ const fs = require('fs');
 const userService = require('../service/user.service');
 const fileService = require('../service/file.service');
 const { AVATAR_PATH } = require('../constants/file.path');
-
 class UserController {
 	async create(ctx, next){
 		// 获取用户请求传递的数据
@@ -24,8 +23,11 @@ class UserController {
 		ctx.body = result;
 		};
 	async getAvatarInfo(ctx, next){
+		// 根据用户获取头像
 		const { userId } = ctx.params;
 		const getavatar = await fileService.getAvatar(userId);
+		// 指定文件类型，方便浏览器展示
+		ctx.response.set('content-type', getavatar.mimetype);
 		ctx.body = fs.createReadStream(`${AVATAR_PATH}/${getavatar.filename}`);
 		}
 }

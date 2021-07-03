@@ -40,6 +40,20 @@ class MonmentController {
 		const { momentId } = ctx.params;
 		const result = await momentService.remove(momentId);
 		ctx.body = result;
+		};
+	async addLabels(ctx, next) {
+		// 获取标签和动态id
+		const { momentId } = ctx.params;
+		const { labels } = ctx;
+		// 添加所有标签
+		// 判断标签是否和动态有关系
+		for(let label of labels){
+			const isExist = await momentService.hasLabel(momentId, label.id);
+			if(!isExist){
+				await momentService.addLabels(momentId, label.id);
+				}
+			}
+		ctx.body = '添加标签成功'
 		}
 }
 

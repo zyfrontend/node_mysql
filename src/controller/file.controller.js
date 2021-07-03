@@ -8,14 +8,27 @@
 *
 ================================================================*/
 const fileService = require('../service/file.service');
-
+const userService = require('../service/user.service');
+const { APP_HOST, APP_PORT } = require('../app/config')
+const {
+	AVATAR_PATH
+} =  require('../constants/file.path');
 
 class FileUpload {
 	async saveAvatarInfo(ctx, next){
+		// 获取用户数据
 		const { filename, mimetype, size } = ctx.req.file;
 		const { id } = ctx.user;
+		// 操作数据
+			// 保存到数据库中
 		const result = await fileService.createAvatar(filename, mimetype, size, id);
-		ctx.body = result;
+			// 将图片地址保存到数据库
+		const avatarURL = `${APP_HOST}:${APP_PORT}/users/${id}/avatar`;
+
+			// 更新avatarURL数据
+		await userService.updateAvatarURL(id, avatarURL);
+		// 返回信息
+		ctx.body = '上传成功';
 		};
 	};
 

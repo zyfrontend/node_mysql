@@ -19,8 +19,12 @@ const {
 	detail,
 	list,
 	update,
-	remove
+	remove,
+	addLabels
 } = require('../controller/moment.controller');
+const {
+	verifyLabel
+} = require('../middlewave/label.middlewave');
 const momentRouter = new Router({prefix: '/moment'});
 
 momentRouter.post('/', verifyAuth, create);
@@ -29,5 +33,8 @@ momentRouter.get('/:momentId', detail);
 momentRouter.patch('/:momentId', verifyAuth, verifyPermission, update);
 momentRouter.delete('/:momentId', verifyAuth, verifyPermission, remove);
 
+
+// 给动态添加标签接口
+momentRouter.post('/:momentId/labels', verifyAuth, verifyPermission, verifyLabel, addLabels);
 
 module.exports = momentRouter;
