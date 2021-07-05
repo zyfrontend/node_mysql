@@ -13,11 +13,12 @@ npm install
 ![](https://zyfullstack-images.oss-cn-shanghai.aliyuncs.com/img/20210623130059.png)
 
 ```
-APP_PORT=8000
-MYSQL_HOST=127.0.0.1
-MYSQL_PORT=3306
-MYSQL_DATABASE=zyhub
-MYSQL_USER=root
-MYSQL_PASSWORD=0226
+APP_HOST=http://localhost
+APP_PORT=
+MYSQL_HOST=
+MYSQL_PORT=
+MYSQL_DATABASE=
+MYSQL_USER=
+MYSQL_PASSWORD=
 ```
 
