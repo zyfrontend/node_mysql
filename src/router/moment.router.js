@@ -20,7 +20,8 @@ const {
 	list,
 	update,
 	remove,
-	addLabels
+	addLabels,
+	fileInfo
 } = require('../controller/moment.controller');
 const {
 	verifyLabel
@@ -37,4 +38,6 @@ momentRouter.delete('/:momentId', verifyAuth, verifyPermission, remove);
 // 给动态添加标签接口
 momentRouter.post('/:momentId/labels', verifyAuth, verifyPermission, verifyLabel, addLabels);
 
+// 获取动态配图接口
+momentRouter.get('/images/:filename', fileInfo);
 module.exports = momentRouter;

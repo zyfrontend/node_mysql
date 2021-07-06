@@ -49,7 +49,32 @@ class MomentService {
 		WHERE m.id = ? 
 		GROUP BY m.id;	
 		`;
-		const [result] = await connection.execute(statement, [id]);
+		const statements = `
+		
+SELECT 
+	m.id id, m.content content,m.createAt createAt, m.updateAt updateAt,
+	JSON_OBJECT('id', u.id, 'name', u.name, 'avatarUrl', u.avatar_url) author,
+	if(COUNT(c.id), JSON_ARRAYAGG(
+		JSON_OBJECT(
+		'id', c.id, 'connent', c.content, 'commentId', c.comment_id, 'createTime', c.createAt,
+		'users', JSON_OBJECT('id', cu.id, 'name', cu.name, 'avatar', cu.avatar_url
+		))), NUll) comments,
+	JSON_ARRAYAGG(
+		JSON_OBJECT(
+			'id', l.id, 'name', l.name
+		)
+	) labels,
+	(SELECT JSON_ARRAYAGG(CONCAT('http://localhost:8000/moment/images/', file.filename)) FROM file WHERE m.id = file.moment_id) images
+	FROM moment m
+	LEFT JOIN users u ON m.users_id = u.id
+	LEFT JOIN comment c ON c.moment_id = m.id
+	LEFT JOIN users cu ON c.users_id = cu.id
+	LEFT JOIN moment_label ml on m.id = ml.moment_id
+	LEFT JOIN label l ON ml.label_id = l.id
+	WHERE m.id = ?
+	GROUP BY  m.id;
+		`;
+		const [result] = await connection.execute(statements, [id]);
 		return result[0];
 		};
 	async getMomentList(offset, size) {
@@ -67,7 +92,8 @@ class MomentService {
 			m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
 			JSON_OBJECT('id', u.id, 'name', u.name) author,
 				(SELECT COUNT(*) FROM comment c WHERE c.moment_id = m.id) commentCount,
-				(SELECT COUNT(*) FROM moment_label ml WHERE ml.moment_id = m.id) labelCount
+				(SELECT COUNT(*) FROM moment_label ml WHERE ml.moment_id = m.id) labelCount,
+				(SELECT JSON_ARRAYAGG(CONCAT('http://localhost:8000/moment/images/', file.filename)) FROM file WHERE m.id = file.moment_id) images
 			FROM moment m
 				LEFT JOIN users u ON m.users_id = u.id
 		LIMIT ?, ?;
@@ -102,7 +128,7 @@ class MomentService {
 		`;
 		const [result] = await connection.execute(statement, [momentId, labelId]);
 		return result;
-		}
-}
+		};
+	}
 
 module.exports = new MomentService(); 

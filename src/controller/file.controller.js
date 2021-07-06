@@ -30,6 +30,19 @@ class FileUpload {
 		// 返回信息
 		ctx.body = '上传成功';
 		};
+	async savePictureInfo(ctx, next){
+		// 获取用户数据
+		const files = ctx.req.files;
+		const { id } = ctx.user;
+		const { momentId } = ctx.query;
+		// 操作数据
+		for(let file of files) {
+			const { filename, mimetype, size } = file;
+			await fileService.createFile(filename, mimetype, size, id, momentId);
+		}
+		// 返回信息
+		ctx.body = '动态配图上传完成';
+		}
 	};
 
 module.exports = new FileUpload();

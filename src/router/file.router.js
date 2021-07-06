@@ -12,22 +12,24 @@ const Multer = require('koa-multer');
 
 
 const fileRouter = new Router({prefix: '/upload'});
-
-const avatarUpload = Multer({
-	dest: './upload/avatar'
-});
-
-const avatarHandle = avatarUpload.single('avatar');
-
+// 存储区域
 const {
-	verifyAuth
+	avatarHandle,
+	pictureHandle
+} = require('../middlewave/file.middlewave');
+// 验证权限
+const {
+	verifyAuth,
 } = require('../middlewave/auth.middlewave');
-
+// 操作数据
 const {
 	saveAvatarInfo,
+	savePictureInfo
 } = require('../controller/file.controller');
-
+// 头像上传借口
 fileRouter.post('/', verifyAuth, avatarHandle, saveAvatarInfo);
+// 动态图片上传接口
+fileRouter.post('/picture', verifyAuth, pictureHandle, savePictureInfo);
 
 module.exports = fileRouter;
 
