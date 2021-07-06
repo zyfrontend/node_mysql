@@ -1,5 +1,4 @@
 node_modules/
-*[Rr]upload/avatar/*
-*[Rr]upload/picture/*
+upload/
 .env
 .env_default
